@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chirp India - Modern Social Experience</title>
+    <!-- Google Fonts -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #ff9933; /* Saffron from Indian flag */
+        --secondary: #138808; /* Green from Indian flag */
+        --accent: #000080; /* Navy blue (close to Ashoka Chakra) */
+        --light: #ffffff;
+        --dark: #171717;
+        --gray: #f0f0f0;
+        --gray-dark: #757575;
+        --font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-family);
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 2.5fr 1.5fr;
+        height: 100vh;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        padding: 1.5rem;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 1px solid var(--gray);
+      }
+
+      .sidebar-left {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary);
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo i {
+        color: var(--primary);
+        font-size: 1.8rem;
+        margin-right: 0.5rem;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        margin: 0.5rem 0;
+        border-radius: 9999px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .nav-item:hover {
+        background-color: rgba(255, 153, 51, 0.1);
+      }
+
+      .nav-item.active {
+        font-weight: 700;
+      }
+
+      .nav-item i {
+        font-size: 1.25rem;
+        margin-right: 1rem;
+      }
+
+      .compose-btn {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        margin-top: 1rem;
+        border-radius: 9999px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .compose-btn:hover {
+        background-color: #ff8800;
+      }
+
+      .compose-btn i {
+        margin-right: 0.5rem;
+      }
+
+      .user-profile {
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .user-profile:hover {
+        background-color: var(--gray);
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 0.75rem;
+      }
+
+      .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .user-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .user-name {
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+
+      .user-handle {
+        color: var(--gray-dark);
+        font-size: 0.85rem;
+      }
+
+      /* Main Content Styles */
+      .main-content {
+        border-right: 1px solid var(--gray);
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      .main-header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--gray);
+        position: sticky;
+        top: 0;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        z-index: 10;
+      }
+
+      .main-header h2 {
+        font-size: 1.25rem;
+      }
+
+      .tabs {
+        display: flex;
+        margin-top: 0.5rem;
+      }
+
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 1rem 0;
+        font-weight: 500;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+      }
+
+      .tab:hover {
+        color: var(--primary);
+      }
+
+      .tab.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        font-weight: 700;
+      }
+
+      .compose-area {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--gray);
+        display: flex;
+      }
+
+      .compose-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 0.75rem;
+      }
+
+      .compose-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .compose-form {
+        flex: 1;
+      }
+
+      .compose-input {
+        width: 100%;
+        border: none;
+        resize: none;
+        font-size: 1.1rem;
+        font-family: inherit;
+        margin-bottom: 0.75rem;
+        padding: 0.5rem 0;
+        background: transparent;
+      }
+
+      .compose-input:focus {
+        outline: none;
+      }
+
+      .compose-input::placeholder {
+        color: var(--gray-dark);
+      }
+
+      .compose-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .compose-tools {
+        display: flex;
+      }
+
+      .compose-tool {
+        color: var(--primary);
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        margin-right: 1rem;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .compose-tool:hover {
+        color: #ff8800;
+      }
+
+      .post-btn {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.5rem 1.25rem;
+        border-radius: 9999px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .post-btn:hover {
+        background-color: #ff8800;
+      }
+
+      .posts {
+        padding-bottom: 2rem;
+      }
+
+      .post {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--gray);
+        display: flex;
+        transition: background-color 0.2s;
+      }
+
+      .post:hover {
+        background-color: rgba(240, 240, 240, 0.5);
+      }
+
+      .post-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 0.75rem;
+      }
+
+      .post-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .post-content {
+        flex: 1;
+      }
+
+      .post-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.25rem;
+      }
+
+      .post-name {
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+
+      .post-handle,
+      .post-time {
+        color: var(--gray-dark);
+        font-size: 0.85rem;
+      }
+
+      .post-handle {
+        margin-right: 0.5rem;
+      }
+
+      .post-text {
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+      }
+
+      .post-image {
+        width: 100%;
+        border-radius: 1rem;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+      }
+
+      .post-image img {
+        width: 100%;
+        height: auto;
+      }
+
+      .post-actions {
+        display: flex;
+        justify-content: space-between;
+        max-width: 425px;
+      }
+
+      .post-action {
+        display: flex;
+        align-items: center;
+        color: var(--gray-dark);
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .post-action i {
+        margin-right: 0.25rem;
+      }
+
+      .post-action.comment:hover {
+        color: var(--primary);
+      }
+
+      .post-action.retweet:hover {
+        color: var(--secondary);
+      }
+
+      .post-action.like:hover {
+        color: #e0245e;
+      }
+
+      .post-action.share:hover {
+        color: var(--primary);
+      }
+
+      /* Trending Section Styles */
+      .sidebar-right {
+        padding: 1rem;
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      .search-container {
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        border-radius: 9999px;
+        border: none;
+        background-color: var(--gray);
+        font-family: inherit;
+        font-size: 0.95rem;
+      }
+
+      .search-input:focus {
+        outline: 2px solid var(--primary);
+        background-color: white;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-dark);
+      }
+
+      .trending-section,
+      .follow-section {
+        background-color: var(--gray);
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .section-header {
+        padding: 0.75rem 1rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .trending-item,
+      .follow-item {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .trending-item:hover,
+      .follow-item:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+
+      .trending-category {
+        font-size: 0.75rem;
+        color: var(--gray-dark);
+        margin-bottom: 0.25rem;
+      }
+
+      .trending-topic {
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+      }
+
+      .trending-count {
+        font-size: 0.75rem;
+        color: var(--gray-dark);
+      }
+
+      .trend-options {
+        font-size: 1rem;
+        color: var(--gray-dark);
+        float: right;
+        cursor: pointer;
+      }
+
+      .follow-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .follow-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 0.75rem;
+      }
+
+      .follow-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .follow-info {
+        flex: 1;
+      }
+
+      .follow-name {
+        font-weight: bold;
+        display: block;
+      }
+
+      .follow-handle {
+        font-size: 0.85rem;
+        color: var(--gray-dark);
+      }
+
+      .follow-btn {
+        background-color: var(--dark);
+        color: white;
+        border: none;
+        padding: 0.4rem 1rem;
+        border-radius: 9999px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .follow-btn:hover {
+        background-color: #444;
+      }
+
+      .show-more {
+        padding: 0.75rem 1rem;
+        color: var(--primary);
+        cursor: pointer;
+      }
+
+      .show-more:hover {
+        text-decoration: underline;
+      }
+
+      .footer {
+        padding: 1rem;
+        font-size: 0.75rem;
+        color: var(--gray-dark);
+        line-height: 1.4;
+      }
+
+      .footer a {
+        color: var(--gray-dark);
+        margin-right: 0.5rem;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .container {
+          grid-template-columns: 1fr 2fr 1.2fr;
+        }
+      }
+
+      @media (max-width: 1000px) {
+        .container {
+          grid-template-columns: 1fr 2fr;
+        }
+        .sidebar-right {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+        .sidebar-left {
+          display: none;
+        }
+        .mobile-nav {
+          display: flex;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background-color: white;
+          border-top: 1px solid var(--gray);
+          z-index: 100;
+          padding: 0.5rem;
+          justify-content: space-around;
+        }
+        .mobile-nav-item {
+          font-size: 1.25rem;
+          padding: 0.75rem;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+        .mobile-nav-item:hover {
+          background-color: rgba(255, 153, 51, 0.1);
+        }
+      }
+
+      /* Indian-themed styling accents */
+      .india-banner {
+        height: 3px;
+        background: linear-gradient(
+          to right,
+          var(--primary) 33%,
+          white 33%,
+          white 66%,
+          var(--secondary) 66%
+        );
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .indian-pattern {
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff9933' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+
+      .chakra-icon {
+        color: var(--accent);
+        margin-left: 0.25rem;
+      }
+
+      /* Animation for loading more content */
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-spinner {
+        display: flex;
+        justify-content: center;
+        padding: 1.5rem 0;
+      }
+
+      .loading-spinner i {
+        color: var(--primary);
+        animation: spin 1.5s linear infinite;
+      }
+
+      /* Tooltip styling for verified badge */
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        margin-left: 0.25rem;
+      }
+
+      .tooltip .tooltip-text {
+        visibility: hidden;
+        width: 120px;
+        background-color: var(--dark);
+        color: white;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 0.75rem;
+        font-weight: normal;
+      }
+
+      .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      /* Job Portal Styling */
+      .job-portal-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .section-header i {
+        margin-left: 0.5rem;
+      }
+
+      .job-item {
+        padding: 0.75rem 1rem;
+        transition: background-color 0.2s;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .job-company {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .job-logo {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        margin-right: 0.5rem;
+      }
+
+      .job-company-name {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--gray-dark);
+      }
+
+      .job-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      .job-details {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        font-size: 0.8rem;
+        color: var(--gray-dark);
+      }
+
+      .job-details span {
+        display: flex;
+        align-items: center;
+      }
+
+      .job-details i {
+        margin-right: 0.25rem;
+        font-size: 0.75rem;
+      }
+
+      .job-apply-btn {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.4rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        width: 100%;
+      }
+
+      .job-apply-btn:hover {
+        background-color: #ff8800;
+      }
+    </style>
+  </head>
+  <body class="indian-pattern">
+    <div class="india-banner"></div>
+    <div class="container">
+      <!-- Left Sidebar -->
+      <aside class="sidebar sidebar-left">
+        <div class="logo">
+          <i class="fas fa-kite"></i>
+          <span>ChirpIndia</span>
+        </div>
+        <nav>
+          <div class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+          </div>
+          <div class="nav-item">
+            <i class="fas fa-hashtag"></i>
+            <span>Explore</span>
+          </div>
+          <div class="nav-item">
+            <i class="far fa-bell"></i>
+            <span>Notifications</span>
+          </div>
+          <div class="nav-item">
+            <i class="far fa-envelope"></i>
+            <span>Messages</span>
+          </div>
+          <div class="nav-item">
+            <i class="far fa-bookmark"></i>
+            <span>Bookmarks</span>
+          </div>
+          <div class="nav-item">
+            <i class="fas fa-list-alt"></i>
+            <span>Lists</span>
+          </div>
+          <div class="nav-item">
+            <i class="far fa-user"></i>
+            <span>Profile</span>
+          </div>
+          <div class="nav-item">
+            <i class="fas fa-ellipsis-h"></i>
+            <span>More</span>
+          </div>
+        </nav>
+        <button class="compose-btn">
+          <i class="fas fa-feather-alt"></i>
+          <span>Post</span>
+        </button>
+        <div class="user-profile">
+          <div class="user-avatar">
+            <img src="/api/placeholder/100/100" alt="User Avatar" />
+          </div>
+          <div class="user-info">
+            <span class="user-name">Arjun Singh</span>
+            <span class="user-handle">@arjunsingh</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <header class="main-header">
+          <h2>Home</h2>
+          <div class="tabs">
+            <div class="tab active">For You</div>
+            <div class="tab">Following</div>
+          </div>
+        </header>
+
+        <div class="compose-area">
+          <div class="compose-avatar">
+            <img src="/api/placeholder/100/100" alt="User Avatar" />
+          </div>
+          <div class="compose-form">
+            <textarea
+              class="compose-input"
+              placeholder="What's happening in India?"
+            ></textarea>
+            <div class="compose-actions">
+              <div class="compose-tools">
+                <button class="compose-tool">
+                  <i class="far fa-image"></i>
+                </button>
+                <button class="compose-tool">
+                  <i class="fas fa-poll-h"></i>
+                </button>
+                <button class="compose-tool">
+                  <i class="far fa-smile"></i>
+                </button>
+                <button class="compose-tool">
+                  <i class="far fa-calendar-alt"></i>
+                </button>
+                <button class="compose-tool">
+                  <i class="fas fa-map-marker-alt"></i>
+                </button>
+              </div>
+              <button class="post-btn">Post</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="posts">
+          <!-- Post 1 -->
+          <div class="post">
+            <div class="post-avatar">
+              <img src="/api/placeholder/128/128" alt="Profile" />
+            </div>
+            <div class="post-content">
+              <div class="post-header">
+                <span class="post-name">Ministry of Tourism</span>
+                <div class="tooltip">
+                  <i
+                    class="fas fa-check-circle"
+                    style="color: var(--primary)"
+                  ></i>
+                  <span class="tooltip-text">Verified Account</span>
+                </div>
+                <span class="post-handle">@incredibleindia</span>
+                <span class="post-time">· 2h</span>
+              </div>
+              <p class="post-text">
+                Experience the vibrant colors of India! From the golden sands of
+                Rajasthan to the lush green backwaters of Kerala, every corner
+                has a story to tell. #IncredibleIndia #ExploreIndia
+              </p>
+              <div class="post-image">
+                <img src="/api/placeholder/600/300" alt="India Tourism" />
+              </div>
+              <div class="post-actions">
+                <div class="post-action comment">
+                  <i class="far fa-comment"></i>
+                  <span>245</span>
+                </div>
+                <div class="post-action retweet">
+                  <i class="fas fa-retweet"></i>
+                  <span>1.2K</span>
+                </div>
+                <div class="post-action like">
+                  <i class="far fa-heart"></i>
+                  <span>4.5K</span>
+                </div>
+                <div class="post-action share">
+                  <i class="fas fa-share-alt"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post 2 -->
+          <div class="post">
+            <div class="post-avatar">
+              <img src="/api/placeholder/128/128" alt="Profile" />
+            </div>
+            <div class="post-content">
+              <div class="post-header">
+                <span class="post-name">Priya Sharma</span>
+                <span class="post-handle">@priyasharma</span>
+                <span class="post-time">· 5h</span>
+              </div>
+              <p class="post-text">
+                Just got my hands on the latest Indian fusion cuisine cookbook!
+                Can't wait to try that Butter Chicken Pasta recipe everyone's
+                talking about. 🍲 #IndianFusion #Foodie
+              </p>
+              <div class="post-actions">
+                <div class="post-action comment">
+                  <i class="far fa-comment"></i>
+                  <span>34</span>
+                </div>
+                <div class="post-action retweet">
+                  <i class="fas fa-retweet"></i>
+                  <span>12</span>
+                </div>
+                <div class="post-action like">
+                  <i class="far fa-heart"></i>
+                  <span>152</span>
+                </div>
+                <div class="post-action share">
+                  <i class="fas fa-share-alt"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-2x"></i>
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Sidebar -->
+      <aside class="sidebar sidebar-right">
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search ChirpIndia"
+          />
+        </div>
+
+        <!-- Trending Section -->
+        <div class="trending-section">
+          <div class="section-header">
+            <span>Trending in India</span>
+          </div>
+
+          <div class="trending-item">
+            <div class="trending-category">Politics · Trending</div>
+            <div class="trending-topic">#SwachhBharatAbhiyan</div>
+            <div class="trending-count">45.2K posts</div>
+            <div class="trend-options">
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+          </div>
+
+          <div class="trending-item">
+            <div class="trending-category">Entertainment · Trending</div>
+            <div class="trending-topic">#BollywoodAwards2025</div>
+            <div class="trending-count">32.1K posts</div>
+            <div class="trend-options">
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+          </div>
+
+          <div class="trending-item">
+            <div class="trending-category">Sports · Live</div>
+            <div class="trending-topic">#INDvAUS</div>
+            <div class="trending-count">128K posts</div>
+            <div class="trend-options">
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+          </div>
+
+          <div class="trending-item">
+            <div class="trending-category">Technology · Trending</div>
+            <div class="trending-topic">#MakeInIndia</div>
+            <div class="trending-count">18.5K posts</div>
+            <div class="trend-options">
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+          </div>
+
+          <div class="show-more">Show more</div>
+        </div>
+
+        <!-- Who to Follow Section -->
+        <div class="follow-section">
+          <div class="section-header">
+            <span>Who to Follow</span>
+          </div>
+
+          <div class="follow-item">
+            <div class="follow-avatar">
+              <img src="/api/placeholder/80/80" alt="Profile" />
+            </div>
+            <div class="follow-info">
+              <span class="follow-name">ISRO</span>
+              <span class="follow-handle">@isro</span>
+            </div>
+            <button class="follow-btn">Follow</button>
+          </div>
+
+          <div class="follow-item">
+            <div class="follow-avatar">
+              <img src="/api/placeholder/80/80" alt="Profile" />
+            </div>
+            <div class="follow-info">
+              <span class="follow-name">Aamir Khan</span>
+              <span class="follow-handle">@aamirkhan</span>
+            </div>
+            <button class="follow-btn">Follow</button>
+          </div>
+
+          <div class="follow-item">
+            <div class="follow-avatar">
+              <img src="/api/placeholder/80/80" alt="Profile" />
+            </div>
+            <div class="follow-info">
+              <span class="follow-name">India Today</span>
+              <span class="follow-handle">@indiatoday</span>
+            </div>
+            <button class="follow-btn">Follow</button>
+          </div>
+
+          <div class="show-more">Show more</div>
+        </div>
+
+        <!-- Footer -->
+      </aside>
+    </div>
+  </body>
+</html>
