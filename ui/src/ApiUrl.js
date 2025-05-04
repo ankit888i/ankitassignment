@@ -10,8 +10,7 @@ const baseApiUrl = "https://ankitassignment.appspot.com/api/";
 export const apiUrlAuth = baseApiUrl + "auth/";
 
 // Twitter/Tweet API endpoints
-export const apiUrlTwitter =
-  "https://ankitassignment.appspot.com/api/" + "twitter/";
+
 export const apiurlStoreTrending = "https://ankitassignment.appspot.com/api/";
 
 // Other API endpoints

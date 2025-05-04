@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Heart, Share } from "lucide-react";
-import { apiUrlUser } from "../ApiUrl";
+import { apiurlTwitter, apiUrlUser } from "../ApiUrl";
 import { apiurlStoreTrending } from "../ApiUrl";
 
 const RightSection = () => {
@@ -21,9 +21,7 @@ const RightSection = () => {
 
         // First try to get live Twitter trending data
         try {
-          const res = await axios.get(
-            "https://ankitassignment.appspot.com/api/twitter/trending"
-          );
+          const res = await axios.get(apiurlTwitter + "trending");
 
           if (
             res.data &&
@@ -227,9 +225,7 @@ const RightSection = () => {
     const fetchTrending = async () => {
       try {
         // Try to get live tweets first
-        const res = await axios.get(
-          "https://ankitassignment.appspot.com/api/twitter/trending"
-        );
+        const res = await axios.get(apiurlTwitter);
 
         if (
           res.data &&
