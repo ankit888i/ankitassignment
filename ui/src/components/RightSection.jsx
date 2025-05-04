@@ -225,7 +225,7 @@ const RightSection = () => {
     const fetchTrending = async () => {
       try {
         // Try to get live tweets first
-        const res = await axios.get(apiurlTwitter);
+        const res = await axios.get(apiurlTwitter + "trending");
 
         if (
           res.data &&
